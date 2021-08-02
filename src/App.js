@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "./component/Header";
 import Form from "./component/Form";
 import Weather from "./component/Weather";
+import Error from "./component/Error";
 
 
 function App() {
@@ -15,7 +16,10 @@ function App() {
 
   const [result, setResult] = useState({})
 
+  const [error, setError] = useState(false)
+
   const {ciudad, pais} = busqueda
+
 
   useEffect(() => {
     const consultarApi = async() =>{
@@ -30,10 +34,27 @@ function App() {
 
         setResult(resultado)
         setConsulta(false)
+
+      // detecta resultados correctos en la consulta
+        if(result.cod === '404'){
+          setError(true)
+        }else{
+          setError(false)
+        }
+
       }
     }
     consultarApi()
+  // eslint-disable-next-line
   },[consulta])
+
+
+  let component;
+  if(error){
+    component = <Error mensaje='No hay resultados'/>
+  }else{
+    component = <Weather result={result}/>
+  }
 
   return (
     <>
@@ -51,9 +72,7 @@ function App() {
               />
             </div>
             <div className='col m6 s12'>
-              <Weather
-                result={result}
-              />
+              {component}
             </div>
           </div>
         </div>
