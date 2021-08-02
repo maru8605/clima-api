@@ -2,12 +2,9 @@ import React from 'react'
 import { useState } from 'react'
 
 
-const Form = () => {
+const Form = ({busqueda, guardarBusqueda, setConsulta}) => {
 
-    const [busqueda, guardarBusqueda] = useState({
-        ciudad:'',
-        pais:''
-    })
+    
 
     const [error, setError] = useState(false)
 
@@ -19,7 +16,7 @@ const Form = () => {
             [e.target.name] : e.target.value
         })
     }
-
+//  al dar submit al form
     const handleSubmit = e => {
         e.preventDefault();
     // validar form
@@ -30,6 +27,7 @@ const Form = () => {
         setError(false)
 
     // envio info a app
+        setConsulta(true)
     }
 
     return (
